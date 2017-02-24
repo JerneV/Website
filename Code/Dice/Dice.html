@@ -1,0 +1,52 @@
+<!--
+Made by Jerne Vingerhoets
+02/2017
+
+Sources used:
+- https://plot.ly/javascript ~ Script for the graph
+-
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!--Get the plot.ly src code, so we can use it.-->
+  <style> body {padding: 0; margin: 0;} </style>
+</head>
+
+<body>
+  <div id="graph" style="width:800px;height:600px;"></div> <!--Create the div where the plot will be displayed-->
+  <button onclick="javascript:dice();"> Roll Dice!</button>
+  <br />
+  Amount of dice (1-6):
+  <input id="diceSlider" type="range" min="1" max="6" value="1" step="1"/>
+  <br />
+  <form action="">
+    <input type='checkbox' name='auto' value='Auto' /> Autoloop
+  </form>
+
+
+
+  <script>
+
+  var data = [
+    {
+      x: ['1', '2', '3', '4', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'],
+      y: ['1', '2', '3', '4', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'],
+      type: 'bar'
+    }
+];
+
+Plotly.newPlot('graph', data);
+
+
+    function dice(){
+      amtDice = document.getElementById('diceSlider').value;
+      console.log(amtDice);
+    }
+
+
+
+  </script>
+
+</body>
+</html>
