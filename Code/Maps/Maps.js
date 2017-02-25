@@ -12,13 +12,13 @@ var w = 1024; //Width of the map
 var h = 512; //Height of the map
 var z = 1; //Zoom level
 var mapImage, lon, lat, x, y;
-var centerlat = 0;
-var centerlon = 0;
+var centerlat = 0; //Defining the center of the map
+var centerlon = 0; //Idem
 var r; //Radius of the ellipse
 
-function preload(){
+function preload(){ //When using preload, all other functions will stop until everything is loaded in this functions.
   mapImage = loadImage("https://api.mapbox.com/styles/v1/mapbox/streets-v9/static/0,0," + z + "/"  + w + "x" + h + "?access_token=" + accessToken ); //Lon, Lat, Zoom, size
-  mapData = loadStrings('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv'); //Get the earthquake data
+  mapData = loadStrings('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv'); //Get the earthquake data in comma seperated format
   //use loadstrings
 }
 
@@ -37,13 +37,13 @@ function mercY(lat){
 
 
 function setup() {
-  createCanvas(1024, 512);
-  translate(width * 0.5, height *0.5);
-  imageMode(CENTER);
-  image(mapImage, 0 ,0);
+  createCanvas(mapImage.width, mapImage.height); //Create a canvas with the width and height of the map
+  translate(width * 0.5, height *0.5); //Translate the canvas
+  imageMode(CENTER); //Put it in the center
+  image(mapImage, 0 ,0); //Create the image on the canvas
 
-  var centerX = mercX(centerlon);
-  var centerY = mercY(centerlat);
+  var centerX = mercX(centerlon); //Calculate the center of the map in x and y values
+  var centerY = mercY(centerlat); //Idem
 
   for(var i = 1; i < mapData.length; i++){
     var eData = mapData[i].split(/,/); //CSV file consists of comma seperated numbers; We will seperate those
@@ -51,13 +51,13 @@ function setup() {
     var lon = eData[2]; //longitude is the second
     var mag = eData[4]; //Magnitude is a log scale --> we'll have to make it linear
 
-    x = mercX(lon) - centerX;
-    y = mercY(lat) - centerY;
+    x = mercX(lon) - centerX; //Since we translated the map we'll have to correct for it when calulating x and y
+    y = mercY(lat) - centerY; //Idem
     r = pow(10, mag); //Linearizing the log scale
     r = map(r, 0, 1000000, 0, 10); //Mapping the newly gotten number to something more usuable
 
-    fill(0, 255, 0);
-    ellipse(x, y, r, r);
+    fill(0, 255, 0); //Green color
+    ellipse(x, y, r, r); //Create the ellipse on the point with a radius that correspondends with it's magnitude
 
   }
 
