@@ -1,59 +1,93 @@
 <!--
 Made by Jerne Vingerhoets
 02/2017
+Finished on 31/05/2017
 
 Sources used:
 - https://plot.ly/javascript ~ Script for the graph
 -
 -->
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!--Get the plot.ly src code, so we can use it.-->
-  <title>JerneV Website</title>
-	<div id="menu" align="middle">
-    <a href="../../index.html">HOME</a> |
-    <a href="../../page2.html">EXAMPLES</a> |
-    <a href="../../Contact.html">CONTACT</a> | 
-	<a href="../../Code.html">CODE</a>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!--Get the plot.ly src code, so we can use it.-->
+    <link rel="stylesheet" href="style.css" />
+    <title>JerneV Website</title>
+    <div id="menu" align="middle">
+        <a href="../../index.html">HOME</a> |
+        <a href="../../page2.html">EXAMPLES</a> |
+        <a href="../../Contact.html">CONTACT</a> |
+        <a href="../../Code.html">CODE</a>
     </div>
-  <style> body {padding: 0; margin: 0;} </style>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="graph" style="width:800px;height:600px;"></div> <!--Create the div where the plot will be displayed-->
-  <button onclick="javascript:dice();"> Roll Dice!</button>
-  <br />
-  Amount of dice (1-6):
-  <input id="diceSlider" type="range" min="1" max="6" value="1" step="1"/>
-  <br />
-  <form action="">
-    <input type='checkbox' name='auto' value='Auto' /> Autoloop
-  </form>
+    <div id="graph" style="width:800px;height:600px;"></div>
+    <!--Create the div where the plot will be displayed-->
+    <button onclick="javascript:rollDice();"> Roll Dice!</button><br>
+	Amount of dice:
+	<input id="amount" type="number" name="amount" value="1" min="1"><br>
+    <!--<input id="diceSlider" type="range" min="1" max="6" value="1" step="1" /> -->
+    <br />
+  
 
 
 
-  <script>
+    <script>
+        var diceData = [0,0,0,0,0,0];
+		var sides = 6;
+        var data = [{
+            x: ['1','2','3','4','5','6'],
+            y: diceData,
+            type: 'bar'
+        }];
 
-  var data = [
-    {
-      x: ['1', '2', '3', '4', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'],
-      y: ['1', '2', '3', '4', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'],
-      type: 'bar'
-    }
-];
-
-Plotly.newPlot('graph', data);
-
-
-    function dice(){
-      amtDice = document.getElementById('diceSlider').value;
-      console.log(amtDice);
-    }
+        Plotly.newPlot('graph', data);
 
 
-
-  </script>
+        function rollDice() {
+			var amount = document.getElementById('amount').value;
+			var x = 0;
+            while(x < amount){
+			x++;
+			var randomNumber = Math.floor(Math.random() * sides) + 1;
+			//console.log(randomNumber);
+			switch(randomNumber) {
+			case 1: 
+				diceData[0]++;
+				break;
+			case 2: 
+				diceData[1]++;
+				break;
+			case 3: 
+				diceData[2]++;
+				break;
+			case 4: 
+				diceData[3]++;
+				break;
+			case 5: 
+				diceData[4]++;
+				break;
+			case 6: 
+				diceData[5]++;
+				break;
+			default:
+				console.log('Number not possible!');
+				
+			}
+		}
+		Plotly.restyle('graph', 'x', diceData);
+		}
+    </script>
 
 </body>
+
 </html>
